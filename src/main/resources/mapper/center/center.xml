@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.center.CenterMapper">
+
+    <select id="findCenterList" parameterType="com.ootcha.wms.dto.center.CenterDto" resultType="com.ootcha.wms.dto.center.CenterDto">
+        select
+            biz_cd
+            ,center_cd
+            ,center_nm
+            ,zip_no
+            ,zip_addr1
+            ,zip_addr2
+            ,remark
+        from t_center
+        where biz_cd = #{bizCd}
+    </select>
+
+    <insert id="saveCenter" parameterType="com.ootcha.wms.dto.center.CenterDto">
+        insert into t_center
+            (
+                biz_cd
+                ,center_cd
+                ,center_nm
+                ,zip_no
+                ,zip_addr1
+                ,zip_addr2
+                ,remark
+                ,created_id
+                ,created_dt
+            )
+        values
+            (
+                #{bizCd}
+                ,#{centerCd}
+                ,#{centerNm}
+                ,#{zipNo}
+                ,#{zipAddr1}
+                ,#{zipAddr2}
+                ,#{remark}
+                ,#{createdId}
+                ,now()
+            )
+        ON DUPLICATE KEY UPDATE
+            center_nm = #{centerNm}
+            , zip_no = #{zipNo}
+            , zip_addr1 = #{zipAddr1}
+            , zip_addr2 = #{zipAddr2}
+            , remark = #{remark}
+            , modified_id = #{createdId}
+            , modified_dt = now()
+    </insert>
+
+    <delete id="deleteCenter" parameterType="com.ootcha.wms.dto.center.CenterDto">
+        DELETE
+        FROM t_center
+        where biz_cd = #{bizCd} and center_cd = #{centerCd}
+    </delete>
+
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.common.SlipNoMapper">
+
+    <select id="getSlipNo"  resultType="String" statementType="CALLABLE">
+        -- 해당 내역 채번
+        UPDATE t_slip_no
+        SET seq_no = (@seqno := seq_no + 1)
+        WHERE comp_cd = @comp_cd
+          AND slip_gbn = @slipgbn
+          AND slip_dt = @slipdt;
+
+    -- 등록된 채번정보가 없는 경우
+        IF @seqno IS NULL THEN
+        BEGIN
+        BEGIN
+        SET @seqno = 1;
+        INSERT INTO sys_slip_no (comp_cd, slip_gbn, slip_dt, seq_no)
+        SELECT @comp_cd, @slipgbn, @slipdt, @seqno
+        FROM dual
+        WHERE NOT EXISTS (
+                SELECT 1
+                FROM sys_slip_no
+                WHERE comp_cd = @comp_cd
+                  AND slip_gbn = @slipgbn
+                  AND slip_dt = @slipdt
+            );
+        END;
+
+    IF @seqno IS NULL THEN
+        BEGIN
+        UPDATE sys_slip_no
+        SET seq_no = (@seqno := seq_no + 1)
+        WHERE comp_cd = @comp_cd
+          AND slip_gbn = @slipgbn
+          AND slip_dt = @slipdt;
+        END;
+        END;
+
+        SELECT
+            DATE_FORMAT(@slipDt, '%Y%m%d') +
+                RIGHT(CONCAT('00000', @seqno), 5) AS slip_no;
+    </select>
+
+</mapper>
+
+        <!--
+Created by IntelliJ IDEA.
+User: hanks
+Date: 2023-01-26
+Time: 오후 2:16
+-->
+
+    

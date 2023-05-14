@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.location.LocationMapper">
+
+    <select id="findLocationList" parameterType="com.ootcha.wms.dto.location.LocationSrchDto" resultType="com.ootcha.wms.dto.location.LocationDto">
+        select
+            center_cd
+             ,location_cd
+             ,zone_cd
+             ,location_nm
+             ,location_type
+             ,able_cbm
+             ,able_weight
+             ,loc_X
+             ,loc_Y
+             ,loc_Z
+             ,use_yn
+        from t_location
+        where biz_cd = #{bizCd} and center_cd =#{centerCd}
+
+    </select>
+
+    <insert id="saveLocation" parameterType="java.util.List">
+        insert into t_location
+                (
+                     biz_cd
+                    ,center_cd
+                    ,location_cd
+                    ,zone_cd
+                    ,location_nm
+                    ,location_type
+                    ,able_cbm
+                    ,able_weight
+                    ,loc_X
+                    ,loc_Y
+                    ,loc_Z
+                    ,use_yn
+                    ,created_id
+                    ,created_dt
+                )
+        values (
+        <foreach item="item" collection="list" separator=",">
+                    #{item.bizCd}
+                    ,#{item.centerCd}
+                    ,#{item.locationCd}
+                    ,#{item.zoneCd}
+                    ,#{item.locationNm}
+                    ,#{item.locationType}
+                    ,#{item.ableCbm}
+                    ,#{item.ableWeight}
+                    ,#{item.locX}
+                    ,#{item.locY}
+                    ,#{item.locZ}
+                    ,#{item.useYn}
+                    ,#{item.createdId}
+                    ,now()
+                )
+        ON DUPLICATE KEY UPDATE
+                 zone_cd = #{item.zoneCd},
+                 location_nm = #{item.locationNm},
+                 location_type = #{item.locationType},
+                 able_cbm = #{item.ableCbm},
+                 able_weight = #{item.ableWeight},
+                 loc_X = #{item.locX},
+                 loc_Y = #{item.locY},
+                 loc_Z = #{item.locZ},
+                 use_yn = #{item.useYn},
+                 modified_id = #{item.createdId},
+                 modified_dt = now()
+        </foreach>
+    </insert>
+
+
+    <delete id="deleteLocation" parameterType="java.util.List">
+        DELETE
+        FROM t_location
+        <where>
+            <foreach collection="list" item="item" open="" close="" separator="OR">
+                (biz_cd = #{item.bizCd} and center_cd = #{item.centerCd} and location_cd = #{item.locationCd})
+            </foreach>
+        </where>
+    </delete>
+
+</mapper>
+
+<!--
+Created by IntelliJ IDEA.
+User: hanks
+Date: 2023-01-25
+Time: 오후 12:08
+-->
+
+    

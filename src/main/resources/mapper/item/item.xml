@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.item.ItemMapper">
+
+    <select id="findItemList" parameterType="com.ootcha.wms.dto.item.ItemSrchDto" resultType="com.ootcha.wms.dto.item.ItemDto">
+        select
+              i.biz_cd
+             ,i.customer_cd
+             ,i.item_cd
+             ,i.item_nm
+             ,i.item_snm
+             ,i.supplier_cd
+             ,i.description
+             ,i.from_make_day
+             ,i.is_make_day
+             ,i.is_set
+             ,i.location
+             ,i.near_exp_day
+             ,i.non_deliver_day
+             ,i.safe_stock_qty
+             ,i.item_barcode
+             ,i.item_width
+             ,i.item_depth
+             ,i.item_height
+             ,i.item_weight
+             ,i.case_barcode
+             ,i.case_ea_qty
+             ,i.case_width
+             ,i.case_depth
+             ,i.case_height
+             ,i.case_weight
+             ,i.box_barcode
+             ,i.box_ea_qty
+             ,i.box_width
+             ,i.box_depth
+             ,i.box_height
+             ,i.box_weight
+             ,i.pallet_barcode
+             ,i.pallet_ea_qty
+             ,i.pallet_width
+             ,i.pallet_depth
+             ,i.pallet_height
+             ,i.pallet_weight
+             ,i.status
+        from t_item as i
+        left join t_customer as c on i.biz_cd = c.biz_cd and i.customer_cd = c.customer_cd
+        where i.biz_cd = #{bizCd} and (#{customerCd} = '' or i.customer_cd =#{customerCd})
+        order by i.customer_cd, i.item_cd, i.supplier_cd
+
+    </select>
+
+    <insert id="saveItem" parameterType="com.ootcha.wms.dto.item.ItemDto">
+        insert into t_item
+                (
+                    biz_cd
+                    ,customer_cd
+                    ,item_cd
+                    ,item_nm
+                    ,item_snm
+                    ,supplier_cd
+                    ,description
+                    ,from_make_day
+                    ,is_make_day
+                    ,is_set
+                    ,location
+                    ,near_exp_day
+                    ,non_deliver_day
+                    ,safe_stock_qty
+                    ,item_barcode
+                    ,item_width
+                    ,item_depth
+                    ,item_height
+                    ,item_weight
+                    ,case_barcode
+                    ,case_ea_qty
+                    ,case_width
+                    ,case_depth
+                    ,case_height
+                    ,case_weight
+                    ,box_barcode
+                    ,box_ea_qty
+                    ,box_width
+                    ,box_depth
+                    ,box_height
+                    ,box_weight
+                    ,pallet_barcode
+                    ,pallet_ea_qty
+                    ,pallet_width
+                    ,pallet_depth
+                    ,pallet_height
+                    ,pallet_weight
+                    ,status
+                    ,created_id
+                    ,created_dt
+                )
+        values (
+                    #{bizCd}
+                    ,#{customerCd}
+                    ,#{itemCd}
+                    ,#{itemNm}
+                    ,#{itemSnm}
+                    ,#{supplierCd}
+                    ,#{description}
+                    ,#{fromMakeDay}
+                    ,#{isMakeDay}
+                    ,#{isSet}
+                    ,#{location}
+                    ,#{nearExpDay}
+                    ,#{nonDeliverDay}
+                    ,#{safeStockQty}
+                    ,#{itemBarcode}
+                    ,#{itemWidth}
+                    ,#{itemDepth}
+                    ,#{itemHeight}
+                    ,#{itemWeight}
+                    ,#{caseBarcode}
+                    ,#{caseEaQty}
+                    ,#{caseWidth}
+                    ,#{caseDepth}
+                    ,#{caseHeight}
+                    ,#{caseWeight}
+                    ,#{boxBarcode}
+                    ,#{boxEaQty}
+                    ,#{boxWidth}
+                    ,#{boxDepth}
+                    ,#{boxHeight}
+                    ,#{boxWeight}
+                    ,#{palletBarcode}
+                    ,#{palletEaQty}
+                    ,#{palletWidth}
+                    ,#{palletDepth}
+                    ,#{palletHeight}
+                    ,#{palletWeight}
+                    ,#{status}
+                    ,#{createdId}
+                    ,now()
+                )
+        ON DUPLICATE KEY UPDATE
+                     item_nm = #{itemNm},
+                     item_snm = #{itemSnm},
+                     supplier_cd = #{supplierCd},
+                     description = #{description},
+                     from_make_day = #{fromMakeDay},
+                     is_make_day = #{isMakeDay},
+                     is_set = #{isSet},
+                     location = #{location},
+                     near_exp_day = #{nearExpDay},
+                     non_deliver_day = #{nonDeliverDay},
+                     safe_stock_qty = #{safeStockQty},
+                     item_barcode = #{itemBarcode},
+                     item_width = #{itemWidth},
+                     item_depth = #{itemDepth},
+                     item_height = #{itemHeight},
+                     item_weight = #{itemWeight},
+                     case_barcode = #{caseBarcode},
+                     case_ea_qty = #{caseEaQty},
+                     case_width = #{caseWidth},
+                     case_depth = #{caseDepth},
+                     case_height = #{caseHeight},
+                     case_weight = #{caseWeight},
+                     box_barcode = #{boxBarcode},
+                     box_ea_qty = #{boxEaQty},
+                     box_width = #{boxWidth},
+                     box_depth = #{boxDepth},
+                     box_height = #{boxHeight},
+                     box_weight = #{boxWeight},
+                     pallet_barcode = #{palletBarcode},
+                     pallet_ea_qty = #{palletEaQty},
+                     pallet_width = #{palletWidth},
+                     pallet_depth = #{palletDepth},
+                     pallet_height = #{palletHeight},
+                     pallet_weight = #{palletWeight},
+                     status = #{status},
+                     modified_id = #{createdId},
+                     modified_dt = now()
+    </insert>
+
+    <delete id="deleteItem" parameterType="com.ootcha.wms.dto.item.ItemDto">
+        DELETE
+        FROM t_item
+        where biz_cd = #{bizCd} and customer_cd = #{customerCd} and item_cd = #{itemCd}
+    </delete>
+
+</mapper>
+
+<!--
+Created by IntelliJ IDEA.
+User: hanks
+Date: 2023-01-25
+Time: 오후 12:08
+-->
+
+    

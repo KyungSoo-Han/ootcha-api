@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.user.UserMapper">
+    <select id="findById" parameterType="String" resultType="com.ootcha.wms.dto.user.UserDto">
+        select biz_cd, id, name, password, email, phone_no, role ,created_dt
+        from t_user
+        where id = #{id}
+
+    </select>
+    <insert id="saveUser" parameterType="com.ootcha.wms.dto.user.UserDto">
+        insert into t_user(
+            biz_cd, id, name, password, email, phone_no, role ,created_dt
+            )
+        values(
+            #{bizCd}, #{id}, #{name}, #{password}, #{email}, #{phoneNo}, #{role}, now()
+            )
+    </insert>
+
+</mapper>
+
+    

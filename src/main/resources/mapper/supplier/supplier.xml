@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.supplier.SupplierMapper">
+
+    <select id="findSupplierList" parameterType="com.ootcha.wms.dto.supplier.SupplierSrchDto" resultType="com.ootcha.wms.dto.supplier.SupplierDto">
+        select
+              s.biz_cd
+             ,s.customer_cd
+             ,c.customer_nm
+             ,s.supplier_cd
+             ,s.supplier_nm
+             ,s.supplier_enm
+             ,s.owner_nm
+             ,s.biz_no
+             ,s.biz_item
+             ,s.biz_type
+             ,s.email
+             ,s.tel_no
+             ,s.fax_no
+             ,s.zip_no
+             ,s.zip_addr1
+             ,s.zip_addr2
+             ,s.homepage
+             ,s.status
+        from t_supplier as s
+        left join t_customer as c on s.biz_cd = c.biz_cd and s.customer_cd = c.customer_cd
+        where s.biz_cd = #{bizCd} and (#{customerCd} = '' or s.customer_cd = #{customerCd})
+        order by s.customer_cd, s.supplier_cd
+
+    </select>
+
+    <insert id="saveSupplier" parameterType="com.ootcha.wms.dto.supplier.SupplierDto">
+        insert into t_supplier
+                (
+                     biz_cd
+                     ,customer_cd
+                     ,supplier_cd
+                     ,supplier_nm
+                     ,supplier_enm
+                     ,owner_nm
+                     ,biz_no
+                     ,biz_item
+                     ,biz_type
+                     ,email
+                     ,tel_no
+                     ,fax_no
+                     ,zip_no
+                     ,zip_addr1
+                     ,zip_addr2
+                     ,homepage
+                     ,status
+                     ,created_id
+                     ,created_dt
+                )
+        values (
+                    #{bizCd}
+                    ,#{customerCd}
+                    ,#{supplierCd}
+                    ,#{supplierNm}
+                    ,#{supplierEnm}
+                    ,#{ownerNm}
+                    ,#{bizNo}
+                    ,#{bizItem}
+                    ,#{bizType}
+                    ,#{email}
+                    ,#{telNo}
+                    ,#{faxNo}
+                    ,#{zipNo}
+                    ,#{zipAddr1}
+                    ,#{zipAddr2}
+                    ,#{homepage}
+                    ,#{status}
+                    ,#{createdId}
+                    ,now()
+                )
+        ON DUPLICATE KEY UPDATE
+                 supplier_nm = #{supplierNm},
+                 supplier_enm = #{supplierEnm},
+                 owner_nm = #{ownerNm},
+                 biz_no = #{bizNo},
+                 biz_item = #{bizItem},
+                 biz_type = #{bizType},
+                 email = #{email},
+                 tel_no = #{telNo},
+                 fax_no = #{faxNo},
+                 zip_no = #{zipNo},
+                 zip_addr1 = #{zipAddr1},
+                 zip_addr2 = #{zipAddr2},
+                 homepage = #{homepage},
+                 status = #{status},
+                 modified_id = #{createdId},
+                 modified_dt = now()
+    </insert>
+
+
+    <delete id="deleteSupplier" parameterType="com.ootcha.wms.dto.supplier.SupplierDto">
+        DELETE
+        FROM t_supplier
+        where biz_cd = #{bizCd} and customer_cd = #{customerCd} and supplier_cd = #{supplierCd}
+    </delete>
+
+</mapper>
+
+<!--
+Created by IntelliJ IDEA.
+User: hanks
+Date: 2023-01-25
+Time: 오후 12:08
+-->
+
+    

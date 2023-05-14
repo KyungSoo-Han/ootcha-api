@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.biz.BizMapper">
+
+    <select id="findBizList" parameterType="com.ootcha.wms.dto.biz.BizDto" resultType="com.ootcha.wms.dto.biz.BizDto">
+        select
+            biz_cd
+            ,biz_nm
+            ,biz_enm
+            ,biz_no
+            ,owner_nm
+            ,biz_item
+            ,biz_type
+            ,zip_no
+            ,zip_addr1
+            ,zip_addr2
+        from t_biz
+        where biz_cd = #{bizCd}
+    </select>
+
+    <insert id="saveBiz" parameterType="com.ootcha.wms.dto.biz.BizDto">
+        insert into t_biz
+            (
+                biz_cd,
+                biz_nm,
+                biz_enm,
+                biz_no,
+                owner_nm,
+                biz_item,
+                biz_type,
+                zip_no,
+                zip_addr1,
+                zip_addr2,
+                created_id,
+                created_dt
+            )
+        values
+            (
+                #{bizCd}
+                ,#{bizNm}
+                ,#{bizEnm}
+                ,#{bizNo}
+                ,#{ownerNm}
+                ,#{bizItem}
+                ,#{bizType}
+                ,#{zipNo}
+                ,#{zipAddr1}
+                ,#{zipAddr2}
+                ,#{createdId}
+                ,now()
+            )
+        ON DUPLICATE KEY UPDATE
+            biz_nm = #{bizNm}
+            , biz_enm = #{bizEnm}
+            , biz_no = #{bizNo}
+            , owner_nm = #{ownerNm}
+            , biz_item = #{bizItem}
+            , biz_type = #{bizType}
+            , zip_no = #{zipNo}
+            , zip_addr1 = #{zipAddr1}
+            , zip_addr2 = #{zipAddr2}
+            , modified_dt = now()
+            , modified_id = #{createdId}
+    </insert>
+
+    <delete id="deleteBiz" parameterType="com.ootcha.wms.dto.biz.BizDto">
+        DELETE
+        FROM t_biz
+        where biz_cd = #{bizCd}
+    </delete>
+
+</mapper>

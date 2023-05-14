@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.zone.ZoneMapper">
+
+    <select id="findZoneList" parameterType="com.ootcha.wms.dto.zone.ZoneDto" resultType="com.ootcha.wms.dto.zone.ZoneDto">
+        select
+            center_cd
+            ,zone_cd
+            ,zone_nm
+            ,stage_yn
+            ,zone_type
+            ,keep_type
+            ,use_yn
+        from t_zone
+        where biz_cd = #{bizCd} and center_cd = #{centerCd} and stage_yn = #{stageYn}
+    </select>
+
+    <insert id="saveZone" parameterType="java.util.List">
+        insert into t_zone
+            (
+                biz_cd
+                ,center_cd
+                ,zone_cd
+                ,zone_nm
+                ,stage_yn
+                ,zone_type
+                ,keep_type
+                ,use_yn
+                ,created_id
+                ,created_dt
+            )
+        values
+        <foreach item="item" collection="list" separator=",">
+            (
+                #{item.bizCd}
+                ,#{item.centerCd}
+                ,#{item.zoneCd}
+                ,#{item.zoneNm}
+                ,#{item.stageYn}
+                ,#{item.zoneType}
+                ,#{item.keepType}
+                ,#{item.useYn}
+                ,#{item.createdId}
+                ,now()
+            )
+        ON DUPLICATE KEY UPDATE
+            zone_nm = #{item.zoneNm}
+            , stage_yn = #{item.stageYn}
+            , zone_type = #{item.zoneType}
+            , keep_type = #{item.keepType}
+            , use_yn = #{item.useYn}
+            , modified_id = #{item.createdId}
+            , modified_dt = now()
+        </foreach>
+    </insert>
+
+    <delete id="deleteZone" parameterType="java.util.List">
+        DELETE
+        FROM t_zone
+        <where>
+            <foreach collection="list" item="item" open="" close="" separator="OR">
+                (biz_cd = #{item.bizCd} AND center_cd = #{item.centerCd} AND zone_cd = #{item.zoneCd})
+            </foreach>
+        </where>
+    </delete>
+
+</mapper>

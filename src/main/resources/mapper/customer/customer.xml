@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.customer.CustomerMapper">
+
+    <select id="findCustomerList" parameterType="com.ootcha.wms.dto.customer.CustomerSrchDto" resultType="com.ootcha.wms.dto.customer.CustomerDto">
+        select
+            biz_cd
+             ,customer_cd
+             ,customer_nm
+             ,customer_enm
+             ,owner_nm
+             ,biz_no
+             ,biz_item
+             ,biz_type
+             ,email
+             ,tel_no
+             ,fax_no
+             ,zip_no
+             ,zip_addr1
+             ,zip_addr2
+             ,homepage
+             ,status
+        from t_customer
+        where biz_cd = #{bizCd}
+
+    </select>
+
+    <insert id="saveCustomer" parameterType="com.ootcha.wms.dto.customer.CustomerDto">
+        insert into t_customer
+                (
+                     biz_cd
+                     ,customer_cd
+                     ,customer_nm
+                     ,customer_enm
+                     ,owner_nm
+                     ,biz_no
+                     ,biz_item
+                     ,biz_type
+                     ,email
+                     ,tel_no
+                     ,fax_no
+                     ,zip_no
+                     ,zip_addr1
+                     ,zip_addr2
+                     ,homepage
+                     ,status
+                     ,created_id
+                     ,created_dt
+                )
+        values (
+                    #{bizCd}
+                    ,#{customerCd}
+                    ,#{customerNm}
+                    ,#{customerEnm}
+                    ,#{ownerNm}
+                    ,#{bizNo}
+                    ,#{bizItem}
+                    ,#{bizType}
+                    ,#{email}
+                    ,#{telNo}
+                    ,#{faxNo}
+                    ,#{zipNo}
+                    ,#{zipAddr1}
+                    ,#{zipAddr2}
+                    ,#{homepage}
+                    ,#{status}
+                    ,#{createdId}
+                    ,now()
+                )
+        ON DUPLICATE KEY UPDATE
+                 customer_nm = #{customerNm},
+                 customer_enm = #{customerEnm},
+                 owner_nm = #{ownerNm},
+                 biz_no = #{bizNo},
+                 biz_item = #{bizItem},
+                 biz_type = #{bizType},
+                 email = #{email},
+                 tel_no = #{telNo},
+                 fax_no = #{faxNo},
+                 zip_no = #{zipNo},
+                 zip_addr1 = #{zipAddr1},
+                 zip_addr2 = #{zipAddr2},
+                 homepage = #{homepage},
+                 status = #{status},
+                 modified_id = #{createdId},
+                 modified_dt = now()
+    </insert>
+
+
+    <delete id="deleteCustomer" parameterType="com.ootcha.wms.dto.customer.CustomerDto">
+        DELETE
+        FROM t_customer
+        where biz_cd = #{bizCd} and customer_cd = #{customerCd}
+    </delete>
+
+</mapper>
+
+<!--
+Created by IntelliJ IDEA.
+User: hanks
+Date: 2023-01-25
+Time: 오후 12:08
+-->
+
+    

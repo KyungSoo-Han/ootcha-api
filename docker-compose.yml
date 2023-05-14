@@ -1,0 +1,7 @@
+version: '3.9'
+services:
+  web:
+    build: .
+    image: hanks716/ootcha-api:0.0.2
+    environment:
+      - SPRING_PROFILES_ACTIVE=server

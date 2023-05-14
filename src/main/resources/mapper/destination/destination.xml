@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.destination.DestinationMapper">
+
+    <select id="findDestinationList" parameterType="com.ootcha.wms.dto.destination.DestinationSrchDto" resultType="com.ootcha.wms.dto.destination.DestinationDto">
+        select
+              d.biz_cd
+             ,d.customer_cd
+             ,c.customer_nm
+             ,d.destination_cd
+             ,d.destination_nm
+             ,d.destination_enm
+             ,d.owner_nm
+             ,d.biz_no
+             ,d.biz_item
+             ,d.biz_type
+             ,d.email
+             ,d.tel_no
+             ,d.fax_no
+             ,d.zip_no
+             ,d.zip_addr1
+             ,d.zip_addr2
+             ,d.homepage
+             ,d.status
+        from t_destination as d
+        left join t_customer as c on d.biz_cd = c.biz_cd and d.customer_cd = c.customer_cd
+        where d.biz_cd = #{bizCd} and (#{customerCd} = '' or d.customer_cd =#{customerCd})
+        order by d.customer_cd, d.destination_cd
+
+    </select>
+
+    <insert id="saveDestination" parameterType="com.ootcha.wms.dto.destination.DestinationDto">
+        insert into t_destination
+                (
+                     biz_cd
+                     ,customer_cd
+                     ,destination_cd
+                     ,destination_nm
+                     ,destination_enm
+                     ,owner_nm
+                     ,biz_no
+                     ,biz_item
+                     ,biz_type
+                     ,email
+                     ,tel_no
+                     ,fax_no
+                     ,zip_no
+                     ,zip_addr1
+                     ,zip_addr2
+                     ,homepage
+                     ,status
+                     ,created_id
+                     ,created_dt
+                )
+        values (
+                    #{bizCd}
+                    ,#{customerCd}
+                    ,#{destinationCd}
+                    ,#{destinationNm}
+                    ,#{destinationEnm}
+                    ,#{ownerNm}
+                    ,#{bizNo}
+                    ,#{bizItem}
+                    ,#{bizType}
+                    ,#{email}
+                    ,#{telNo}
+                    ,#{faxNo}
+                    ,#{zipNo}
+                    ,#{zipAddr1}
+                    ,#{zipAddr2}
+                    ,#{homepage}
+                    ,#{status}
+                    ,#{createdId}
+                    ,now()
+                )
+        ON DUPLICATE KEY UPDATE
+                 destination_nm = #{destinationNm},
+                 destination_enm = #{destinationEnm},
+                 owner_nm = #{ownerNm},
+                 biz_no = #{bizNo},
+                 biz_item = #{bizItem},
+                 biz_type = #{bizType},
+                 email = #{email},
+                 tel_no = #{telNo},
+                 fax_no = #{faxNo},
+                 zip_no = #{zipNo},
+                 zip_addr1 = #{zipAddr1},
+                 zip_addr2 = #{zipAddr2},
+                 homepage = #{homepage},
+                 status = #{status},
+                 modified_id = #{createdId},
+                 modified_dt = now()
+    </insert>
+
+
+    <delete id="deleteDestination" parameterType="com.ootcha.wms.dto.destination.DestinationDto">
+        DELETE
+        FROM t_destination
+        where biz_cd = #{bizCd} and customer_cd = #{customerCd} and destination_cd = #{destinationCd}
+    </delete>
+
+</mapper>
+
+<!--
+Created by IntelliJ IDEA.
+User: hanks
+Date: 2023-01-25
+Time: 오후 12:08
+-->
+
+    

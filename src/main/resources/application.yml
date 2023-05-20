@@ -1,0 +1,97 @@
+
+spring:
+  config:
+    activate:
+      on-profile: server
+  datasource:
+    url:  jdbc:log4jdbc:mariadb://db.ootcha.com:3306/ootcha
+    username: aselcni
+    password: 1234
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+
+server:
+  port: 80
+
+logging:
+  level:
+    jdbc:
+      aduit: off
+      resultset: off
+      resultsettable: info
+      sqlonly: DEBUG
+      edi: DEBUG
+    org:
+      hibernate:
+        SQL: debug
+        type: trace
+
+mybatis:
+  mapper-location: mapper/**/**.xml
+  config-location: mybatis-config.xml
+
+jwt:
+  header: Authorization
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  token-validity-in-seconds: 86400  #??? ???? 86400?=??
+
+management:
+  server:
+    port: 9090
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    #url: jdbc:sqlserver://110.93.134.227:2014;database=ASEL_WMS_TEST;encrypt=false
+    #url: jdbc:log4jdbc://210.103.143.194:19;database=ASEL_WMS;encrypt=false
+    url:  jdbc:log4jdbc:mariadb://db.ootcha.com:3306/ootcha
+    #url:  jdbc:mysql://localhost:3306/wms?serverTimezone=Asia/Seoul
+    username: aselcni
+    password: 1234
+    #username: root
+    #password: qwert12345
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  security:
+    user:
+      name: admin
+      password: admin
+
+management:
+  server:
+    port: 9090
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+server:
+  port: 81
+
+logging:
+  level:
+    jdbc:
+      aduit: off
+      resultset: off
+      resultsettable: info
+      sqlonly: DEBUG
+      edi: DEBUG
+    org:
+      hibernate:
+        SQL: debug
+        type: trace
+
+mybatis:
+  mapper-location: mapper/**/**.xml
+  config-location: mybatis-config.xml
+
+jwt:
+  header: Authorization
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  token-validity-in-seconds: 86400  #??? ???? 86400?=??

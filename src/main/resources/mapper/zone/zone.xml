@@ -43,15 +43,15 @@
                 ,#{item.createdId}
                 ,now()
             )
-        ON DUPLICATE KEY UPDATE
-            zone_nm = #{item.zoneNm}
-            , stage_yn = #{item.stageYn}
-            , zone_type = #{item.zoneType}
-            , keep_type = #{item.keepType}
-            , use_yn = #{item.useYn}
-            , modified_id = #{item.createdId}
-            , modified_dt = now()
         </foreach>
+        ON DUPLICATE KEY UPDATE
+            zone_nm = VALUES(zone_nm)
+            , stage_yn = VALUES(stage_yn)
+            , zone_type = VALUES(zone_type)
+            , keep_type = VALUES(keep_type)
+            , use_yn = VALUES(use_yn)
+            , modified_id = VALUES(created_id)
+            , modified_dt = now()
     </insert>
 
     <delete id="deleteZone" parameterType="java.util.List">

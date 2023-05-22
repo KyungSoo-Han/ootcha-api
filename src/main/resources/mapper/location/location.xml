@@ -55,19 +55,19 @@
                     ,#{item.createdId}
                     ,now()
                 )
-        ON DUPLICATE KEY UPDATE
-                 zone_cd = #{item.zoneCd},
-                 location_nm = #{item.locationNm},
-                 location_type = #{item.locationType},
-                 able_cbm = #{item.ableCbm},
-                 able_weight = #{item.ableWeight},
-                 loc_X = #{item.locX},
-                 loc_Y = #{item.locY},
-                 loc_Z = #{item.locZ},
-                 use_yn = #{item.useYn},
-                 modified_id = #{item.createdId},
-                 modified_dt = now()
         </foreach>
+        ON DUPLICATE KEY UPDATE
+                 zone_cd = VALUE(zoneCd),
+                 location_nm = VALUE(locationNm),
+                 location_type = VALUE(locationType),
+                 able_cbm = VALUE(ableCbm),
+                 able_weight = VALUE(ableWeight),
+                 loc_X = VALUE(locX),
+                 loc_Y = VALUE(locY),
+                 loc_Z = VALUE(locZ),
+                 use_yn = VALUE(useYn),
+                 modified_id = VALUE(createdId),
+                 modified_dt = now()
     </insert>
 
 

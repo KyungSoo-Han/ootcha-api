@@ -5,8 +5,8 @@ spring:
       on-profile: server
   datasource:
     url:  jdbc:log4jdbc:mariadb://db.ootcha.com:3306/ootcha
-    username: aselcni
-    password: 1234
+    username: hanks
+    password: 590405
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 
 server:
@@ -53,8 +53,8 @@ spring:
     #url: jdbc:log4jdbc://210.103.143.194:19;database=ASEL_WMS;encrypt=false
     url:  jdbc:log4jdbc:mariadb://db.ootcha.com:3306/ootcha
     #url:  jdbc:mysql://localhost:3306/wms?serverTimezone=Asia/Seoul
-    username: aselcni
-    password: 1234
+    username: hanks
+    password: 590405
     #username: root
     #password: qwert12345
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy

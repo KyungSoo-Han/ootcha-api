@@ -38,8 +38,9 @@
                     ,created_id
                     ,created_dt
                 )
-        values (
+        values
         <foreach item="item" collection="list" separator=",">
+            (
                     #{item.bizCd}
                     ,#{item.centerCd}
                     ,#{item.locationCd}
@@ -57,16 +58,16 @@
                 )
         </foreach>
         ON DUPLICATE KEY UPDATE
-                 zone_cd = VALUE(zoneCd),
-                 location_nm = VALUE(locationNm),
-                 location_type = VALUE(locationType),
-                 able_cbm = VALUE(ableCbm),
-                 able_weight = VALUE(ableWeight),
-                 loc_X = VALUE(locX),
-                 loc_Y = VALUE(locY),
-                 loc_Z = VALUE(locZ),
-                 use_yn = VALUE(useYn),
-                 modified_id = VALUE(createdId),
+                 zone_cd = VALUE(zone_cd),
+                 location_nm = VALUE(location_nm),
+                 location_type = VALUE(location_type),
+                 able_cbm = VALUE(able_cbm),
+                 able_weight = VALUE(able_weight),
+                 loc_X = VALUE(loc_X),
+                 loc_Y = VALUE(loc_Y),
+                 loc_Z = VALUE(loc_Z),
+                 use_yn = VALUE(use_yn),
+                 modified_id = VALUE(modified_id),
                  modified_dt = now()
     </insert>
 

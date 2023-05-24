@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.outboundreq.OutboundReqMapper">
+
+    <select id="findOutboundReq" parameterType="com.ootcha.wms.dto.outboundreq.OutboundReqSrchDto" resultType="com.ootcha.wms.dto.outboundreq.OutboundReqDto" >
+        select
+             a.biz_cd
+            ,a.outbound_req_dt
+            ,a.outbound_req_no
+            ,a.center_cd
+            ,a.customer_cd
+            ,c.customer_nm
+            ,a.destination_cd
+            ,d.destination_nm
+            ,a.outbound_type
+            ,a.outbound_exp_dt
+            ,a.remark
+            ,b.outbound_req_seq
+            ,b.item_cd
+            ,e.item_nm
+            ,b.exp_dt
+            ,b.make_dt
+            ,b.make_lot_no
+            ,b.price
+            ,b.qty
+            ,b.sub_remark
+        from t_outbound_req a
+        left join t_outbound_req_item b on a.biz_cd = b.biz_cd
+                                              and a.outbound_req_dt = b.outbound_req_dt
+                                              and a.outbound_req_no = b.outbound_req_no
+        left join t_customer c on a.biz_cd = c.biz_cd and a.customer_cd = c.customer_cd
+        left join t_destination d on a.biz_cd = d.biz_cd and a.customer_cd = d.customer_cd and a.destination_cd = d.destination_cd
+        left join t_item e on a.biz_cd = e.biz_cd and a.customer_cd = e.customer_cd and b.item_cd = e.item_cd
+        where a.biz_cd = #{bizCd}
+            and a.center_cd = #{centerCd}
+        <if test='outboundReqDt != null'>
+            and a.outbound_req_dt = #{outboundReqDt}
+        </if>
+          <if test='outboundReqNo != null'>
+            and a.outbound_req_no = #{outboundReqNo}
+          </if>
+          <if test='outboundExpDt != null'>
+            and a.outbound_exp_dt = #{outboundExpDt}
+          </if>
+    </select>
+
+    <select id="findOutboundReqList" parameterType="com.ootcha.wms.dto.outboundreq.OutboundReqSrchDto" resultType="com.ootcha.wms.dto.outboundreq.OutboundReqDto" >
+        select
+            a.biz_cd
+            ,a.outbound_req_dt
+            ,a.outbound_req_no
+            ,a.center_cd
+            ,a.customer_cd
+            ,c.customer_nm
+            ,a.destination_cd
+            ,d.destination_nm
+            ,a.outbound_type
+            ,a.outbound_exp_dt
+            ,a.remark
+            ,b.outbound_req_seq
+            ,b.item_cd
+            ,e.item_nm
+            ,b.exp_dt
+            ,b.make_dt
+            ,b.make_lot_no
+            ,b.price
+            ,b.qty
+            ,b.sub_remark
+        from t_outbound_req a
+            left join t_outbound_req_item b on a.biz_cd = b.biz_cd
+                                                    and a.outbound_req_dt = b.outbound_req_dt
+                                                    and a.outbound_req_no = b.outbound_req_no
+            left join t_customer c on a.biz_cd = c.biz_cd and a.customer_cd = c.customer_cd
+            left join t_destination d on a.biz_cd = d.biz_cd and a.customer_cd = d.customer_cd and a.destination_cd = d.destination_cd
+            left join t_item e on a.biz_cd = e.biz_cd and a.customer_cd = e.customer_cd and b.item_cd = e.item_cd
+        where a.biz_cd = #{bizCd}
+        and a.center_cd = #{centerCd}
+        and a.outbound_req_dt between #{outboundReqFromDt} and #{outboundReqToDt}
+        <if test='outboundReqNo != null'>
+            and a.outbound_req_no = #{outboundReqNo}
+        </if>
+        <if test='customerCd != null'>
+            and a.customer_cd = #{customerCd}
+        </if>
+        <if test='destinationCd != null'>
+            and a.destination_cd = #{destinationCd}
+        </if>
+        <if test="status eq 0">
+            and a.status = #{status}
+        </if>
+    </select>
+
+    <insert id="saveOutboundReq" parameterType="com.ootcha.wms.dto.outboundreq.OutboundReqDto" >
+
+        <selectKey keyProperty="outboundReqNo" resultType="integer" order="BEFORE">
+            SELECT
+                COALESCE(#{outboundReqNo}, (SELECT IFNULL(MAX(outbound_req_no),0)+1
+                FROM t_outbound_req
+                WHERE biz_cd = #{bizCd} AND outbound_req_dt = #{outboundReqDt})) as outboundReqNo
+        </selectKey>
+
+        insert into t_outbound_req
+        (
+            biz_cd
+            ,outbound_req_dt
+            ,outbound_req_no
+            ,center_cd
+            ,customer_cd
+            ,destination_cd
+            ,outbound_type
+            ,outbound_exp_dt
+            ,remark
+            ,created_id
+            ,created_dt
+        )
+        values
+
+            (
+                #{bizCd}
+                ,#{outboundReqDt}
+                ,#{outboundReqNo}
+                ,#{centerCd}
+                ,#{customerCd}
+                ,#{destinationCd}
+                ,#{outboundType}
+                ,#{outboundExpDt}
+                ,#{remark}
+                ,#{createdId}
+                ,now()
+            )
+        ON DUPLICATE KEY UPDATE
+             customer_cd = #{customerCd}
+            , destination_cd = #{destinationCd}
+            , outbound_type = #{outboundType}
+            , outbound_exp_dt = #{outboundExpDt}
+            , remark = #{remark}
+            , modified_id = #{createdId}
+            , modified_dt = now()
+    </insert>
+
+    <insert id="saveOutboundReqItem" parameterType="map" >
+
+        <selectKey keyProperty="outboundReqSeq" resultType="integer" order="BEFORE">
+            SELECT ifnull(MAX(outbound_req_seq),0) +1
+            FROM t_outbound_req_item
+            where biz_cd = #{bizCd}
+            AND outbound_req_dt = #{outboundReqDt}
+            AND outbound_req_no = #{outboundReqNo}
+        </selectKey>
+
+        insert into t_outbound_req_item
+        (
+        outbound_req_dt
+        ,outbound_req_no
+        ,outbound_req_seq
+        ,biz_cd
+        ,center_cd
+        ,item_cd
+        ,exp_dt
+        ,make_dt
+        ,make_lot_no
+        ,price
+        ,qty
+        ,sub_remark
+        ,created_id
+        ,created_dt
+        )
+        values
+        <foreach item="item" collection="list"  index = "i" separator=",">
+            (
+            #{outboundReqDt}
+            ,#{outboundReqNo}
+            ,
+            <if test="item.outboundReqSeq == null">
+                #{outboundReqSeq} + #{i}
+            </if>
+            <if test="item.outboundReqSeq != null">
+                #{item.outboundReqSeq}
+            </if>
+            ,#{bizCd}
+            ,#{item.centerCd}
+            ,#{item.itemCd}
+            ,#{item.expDt}
+            ,#{item.makeDt}
+            ,#{item.makeLotNo}
+            ,#{item.price}
+            ,#{item.qty}
+            ,#{item.subRemark}
+            ,#{item.createdId}
+            ,now()
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            item_cd = VALUES(item_cd),
+            exp_dt = VALUES(exp_dt),
+            make_dt = VALUES(make_dt),
+            make_lot_no = VALUES(make_lot_no),
+            price = VALUES(price),
+            qty = VALUES(qty),
+            sub_remark = VALUES(sub_remark),
+            modified_id = VALUES(created_id),
+            modified_dt = now()
+
+
+    </insert>
+
+    <delete id="deleteOutboundReq" parameterType="OutboundReqDeleteDto">
+        DELETE
+        FROM t_outbound_req
+        WHERE biz_cd = #{bizCd} AND outbound_req_dt = #{outboundReqDt} AND outbound_req_no = #{outboundReqNo}
+    </delete>
+
+    <delete id="deleteOutboundReqItem" parameterType="OutboundReqDeleteDto">
+        DELETE
+        FROM t_outbound_req_item
+        WHERE biz_cd = #{bizCd} AND outbound_req_dt = #{outboundReqDt} AND outbound_req_no = #{outboundReqNo}
+    </delete>
+
+    <delete id="deleteOutboundReqList" parameterType="java.util.List">
+        DELETE
+        FROM t_outbound_req_item
+        WHERE biz_cd = #{bizCd} AND outbound_req_dt = #{outboundReqDt} AND outbound_req_no = #{outboundReqNo}
+        AND outbound_req_seq in
+        <foreach collection="list" item ="i" open="(" close =")" separator=",">
+            #{i.outboundReqSeq}
+        </foreach>
+
+    </delete>
+
+    <update id="updateOutboundApprRefuse" parameterType="OutboundReqUpdateDto">
+        UPDATE t_outbound_req
+        SET
+            STATUS = 1
+        WHERE biz_cd = #{bizCd} AND outbound_req_dt = #{outboundReqDt} AND outbound_req_no = #{outboundReqNo};
+    </update>
+
+    <update id="updateOutboundAppr" parameterType="OutboundReqUpdateDto">
+        UPDATE t_outbound_req
+        SET
+            STATUS = 2
+        WHERE biz_cd = #{bizCd} AND outbound_req_dt = #{outboundReqDt} AND outbound_req_no = #{outboundReqNo};
+    </update>
+
+</mapper>

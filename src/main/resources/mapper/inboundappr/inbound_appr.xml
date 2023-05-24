@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.inboundappr.InboundApprMapper">
+
+    <select id="findInboundReqMst" parameterType="com.ootcha.wms.dto.inboundreq.InboundReqSrchDto" resultType="com.ootcha.wms.dto.inboundreq.InboundReqDto" >
+        select distinct
+        a.biz_cd
+        ,a.inbound_req_dt
+        ,a.inbound_req_no
+        ,a.center_cd
+        ,a.customer_cd
+        ,c.customer_nm
+        ,a.supplier_cd
+        ,d.supplier_nm
+        ,a.inbound_type
+        ,a.inbound_exp_dt
+        ,a.remark
+        ,c.customer_cd
+        ,c.customer_nm
+        from t_inbound_req a
+            left join t_customer c on a.biz_cd = c.biz_cd and a.customer_cd = c.customer_cd
+            left join t_supplier d on a.biz_cd = d.biz_cd and a.customer_cd = d.customer_cd and a.supplier_cd = d.supplier_cd
+        where a.biz_cd = #{bizCd}
+            and a.center_cd = #{centerCd}
+            and a.inbound_req_dt between #{inboundReqFromDt} and #{inboundReqToDt}
+            <if test='inboundReqNo != null'>
+                and a.inbound_req_no = #{inboundReqNo}
+            </if>
+            <if test='customerCd != null'>
+                and a.customer_cd = #{customerCd}
+            </if>
+            <if test='supplierCd != null'>
+                and a.supplier_cd = #{supplierCd}
+            </if>
+            <if test="status != null">
+                and a.status = #{status}
+            </if>
+    </select>
+
+
+    <select id="findInboundReqDtl" parameterType="com.ootcha.wms.dto.inboundreq.InboundReqSrchDto" resultType="com.ootcha.wms.dto.inboundreq.InboundReqDto" >
+        select
+            a.biz_cd
+            ,a.inbound_req_dt
+            ,a.inbound_req_no
+            ,a.center_cd
+            ,a.customer_cd
+            ,c.customer_nm
+            ,a.supplier_cd
+            ,d.supplier_nm
+            ,a.inbound_type
+            ,a.inbound_exp_dt
+            ,a.remark
+            ,b.inbound_req_seq
+            ,b.item_cd
+            ,e.item_nm
+            ,b.exp_dt
+            ,b.make_dt
+            ,b.make_lot_no
+            ,b.price
+            ,b.qty
+            ,b.sub_remark
+            ,c.customer_cd
+            ,c.customer_nm
+        from t_inbound_req a
+            left join t_inbound_req_item b on a.biz_cd = b.biz_cd
+                                                and a.inbound_req_dt = b.inbound_req_dt
+                                                and a.inbound_req_no = b.inbound_req_no
+            left join t_customer c on a.biz_cd = c.biz_cd and a.customer_cd = c.customer_cd
+            left join t_supplier d on a.biz_cd = d.biz_cd and a.customer_cd = d.customer_cd and a.supplier_cd = d.supplier_cd
+            left join t_item e on a.biz_cd = e.biz_cd and a.customer_cd = e.customer_cd and b.item_cd = e.item_cd
+        where a.biz_cd = #{bizCd}
+            and a.center_cd = #{centerCd}
+            and a.inbound_req_dt = #{inboundReqDt}
+            and a.inbound_req_no = #{inboundReqNo}
+
+    </select>
+</mapper>
+
+    

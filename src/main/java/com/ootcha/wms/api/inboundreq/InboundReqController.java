@@ -81,11 +81,13 @@ public class InboundReqController {
     }
 
     @PostMapping("/appr")
-    public ResponseDto<InboundReqUpdateDto> updateInBoundAppr(@RequestBody List<InboundReqUpdateDto> updateDto) {
+    public ResponseDto<String> apprInboundReq(@RequestBody List<InboundReqApprDto> reqApprDto) {
+        for (InboundReqApprDto inboundReqApprDto : reqApprDto) {
+            System.out.println("inboundReqApprDto = " + inboundReqApprDto);
+        }
+        inboundApprService.apprInboundAppr(reqApprDto);
 
-        InboundReqUpdateDto inboundReqDto = inboundReqService.updateInboundAppr(updateDto);
-
-        return ResponseDto.SuccessResponse(inboundReqDto, HttpStatus.OK);
+        return ResponseDto.SuccessResponse("OK", HttpStatus.OK);
     }
 
     @PostMapping("/saveInbound")

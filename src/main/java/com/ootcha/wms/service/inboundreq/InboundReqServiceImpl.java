@@ -70,19 +70,6 @@ public class InboundReqServiceImpl implements InboundReqService {
 
     }
 
-    @Override
-    @Transactional
-    public InboundReqUpdateDto updateInboundAppr(List<InboundReqUpdateDto> updateDto)  {
-
-        for(int i=0; i<updateDto.size(); i++) {
-            if(updateDto.get(i).getChecked() == 0){
-                mapper.updateInboundAppr(updateDto.get(i));
-            }else{
-                mapper.updateInboundApprRefuse(updateDto.get(i));
-            }
-        }
-        return null;
-    }
 
     @Override
     public Integer saveInbound(List<InboundDto> inboundDto) {

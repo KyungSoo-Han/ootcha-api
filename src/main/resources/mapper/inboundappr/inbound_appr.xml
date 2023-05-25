@@ -17,6 +17,7 @@
         ,a.remark
         ,c.customer_cd
         ,c.customer_nm
+        , case when a.status = 0 then '대기' when a.status = 1 then '반려' when a.status = 2 then '승인' end status
         from t_inbound_req a
             left join t_customer c on a.biz_cd = c.biz_cd and a.customer_cd = c.customer_cd
             left join t_supplier d on a.biz_cd = d.biz_cd and a.customer_cd = d.customer_cd and a.supplier_cd = d.supplier_cd
@@ -32,9 +33,9 @@
             <if test='supplierCd != null'>
                 and a.supplier_cd = #{supplierCd}
             </if>
-            <if test="status != null">
+         <!--   <if test="status != null">
                 and a.status = #{status}
-            </if>
+            </if>-->
     </select>
 
 
@@ -75,6 +76,14 @@
             and a.inbound_req_no = #{inboundReqNo}
 
     </select>
+
+    <update id="apprInboundAppr" parameterType="java.util.List">
+        <foreach collection="list" item="i" separator=";">
+            UPDATE t_inbound_req
+            SET STATUS = #{i.status}
+            WHERE biz_cd = #{i.bizCd} AND inbound_req_dt = #{i.inboundReqDt} AND inbound_req_no = #{i.inboundReqNo}
+        </foreach>
+    </update>
 </mapper>
 
     

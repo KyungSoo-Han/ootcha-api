@@ -350,19 +350,13 @@
         </foreach>
     </delete>
 
-    <update id="updateInboundApprRefuse" parameterType="InboundReqUpdateDto">
+  <!--  <update id="updateInboundApprRefuse" parameterType="InboundReqUpdateDto">
         UPDATE t_inbound_req
         SET
             STATUS = 1
         WHERE biz_cd = #{bizCd} AND inbound_req_dt = #{inboundReqDt} AND inbound_req_no = #{inboundReqNo};
-    </update>
+    </update>-->
 
-    <update id="updateInboundAppr" parameterType="InboundReqUpdateDto">
-        UPDATE t_inbound_req
-        SET
-            STATUS = 2
-        WHERE biz_cd = #{bizCd} AND inbound_req_dt = #{inboundReqDt} AND inbound_req_no = #{inboundReqNo};
-    </update>
 
     <delete id="deleteInbound" parameterType="InboundDeleteDto">
         Delete

@@ -1,9 +1,9 @@
 package com.ootcha.wms.service.inboundappr;
 
+import com.ootcha.wms.dto.inboundreq.InboundReqApprDto;
 import com.ootcha.wms.dto.inboundreq.InboundReqDto;
 import com.ootcha.wms.dto.inboundreq.InboundReqSrchDto;
 import com.ootcha.wms.mapper.inboundappr.InboundApprMapper;
-import com.ootcha.wms.mapper.inboundreq.InboundReqMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,5 +25,13 @@ public class inboundApprServiceImpl implements InboundApprService{
     @Override
     public List<InboundReqDto> findInboundReqDtl(InboundReqSrchDto inboundReqSrchDto) {
         return mapper.findInboundReqDtl(inboundReqSrchDto);
+    }
+
+    @Override
+    @Transactional
+    public void apprInboundAppr(List<InboundReqApprDto> reqApprDto)  {
+
+        mapper.apprInboundAppr(reqApprDto);
+
     }
 }

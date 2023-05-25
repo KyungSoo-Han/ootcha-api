@@ -12,7 +12,6 @@ public interface InboundReqService {
     Integer saveInboundReq(List<InboundReqDto> inboundReqDto);
     void deleteInboundReq(InboundReqDeleteDto inboundReqDto);
     void deleteInboundReqList(List<InboundReqDeleteDto> inboundReqDto);
-    InboundReqUpdateDto updateInboundAppr(List<InboundReqUpdateDto> updateDto);
     Integer saveInbound(List<InboundDto> inboundDto);
     List<InboundDto> findInbound(InboundSrchDto inboundSrchDto);
     List<InboundInspectDto> findInboundInspectList(InboundInspectSrchDto inboundInspectSrchDto);

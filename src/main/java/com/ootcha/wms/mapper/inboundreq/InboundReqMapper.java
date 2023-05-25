@@ -17,8 +17,6 @@ public interface InboundReqMapper {
     void deleteInboundReq(InboundReqDeleteDto inboundReqDto);
     void deleteInboundReqItem(InboundReqDeleteDto inboundReqDto);
     void deleteInboundReqList(List<InboundReqDeleteDto> inboundReqDto);
-    void updateInboundApprRefuse(InboundReqUpdateDto updateDto);
-    void updateInboundAppr(InboundReqUpdateDto updateDto);
     void saveInbound(InboundDto inboundDto);
     List<InboundDto> findInbound(InboundSrchDto inboundSrchDto);
     void saveInboundItem(Map<Object, Object> paramMap);

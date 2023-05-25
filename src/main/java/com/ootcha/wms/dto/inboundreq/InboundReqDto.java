@@ -25,7 +25,7 @@ public class InboundReqDto {
     private Integer price;
     private Integer qty;
     private String subRemark;
-    private Integer status;
+    private String status;
     private String createdId;
     private String createdDt;
     private String modifiedId;

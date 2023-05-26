@@ -206,7 +206,7 @@
 
     </insert>
 
-    <insert id="saveInbound" parameterType="com.ootcha.wms.dto.inboundreq.InboundDto" >
+    <insert id="saveInbound" parameterType="com.ootcha.wms.dto.inbound.InboundDto" >
 
         <selectKey keyProperty="inboundNo" resultType="integer" order="BEFORE">
             SELECT

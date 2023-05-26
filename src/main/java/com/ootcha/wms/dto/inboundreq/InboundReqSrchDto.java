@@ -15,6 +15,8 @@ public class InboundReqSrchDto {
     private String customerCd;
     private String supplierCd;
     private String inboundExpDt;
-    private int status;
+    private Integer status;
+    private String inboundExpFromDt;
+    private String inboundExpToDt;
 
 }

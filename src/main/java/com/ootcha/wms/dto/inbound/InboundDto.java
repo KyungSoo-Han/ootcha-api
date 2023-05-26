@@ -1,4 +1,4 @@
-package com.ootcha.wms.dto.inboundreq;
+package com.ootcha.wms.dto.inbound;
 
 import lombok.Data;
 

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.inbound.InboundMapper">
+
+    <insert id="saveInbound" parameterType="map" >
+
+        <selectKey keyProperty="inboundNo" resultType="integer" order="BEFORE">
+            SELECT ifnull(MAX(inbound_no),0) +1
+            FROM t_inbound
+            where biz_cd = #{bizCd}
+            AND inbound_dt = #{inboundDt}
+        </selectKey>
+
+
+        insert into t_inbound
+        (
+            biz_cd
+            ,inbound_dt
+            ,inbound_no
+            ,center_cd
+            ,customer_cd
+            ,supplier_cd
+            ,inbound_type
+            ,inbound_exp_dt
+            ,remark
+            ,inbound_req_dt
+            ,inbound_req_no
+            ,created_id
+            ,created_dt
+        )
+
+        values
+        <foreach item="item" collection="list"  index = "i" separator=",">
+            (
+             #{bizCd}
+            ,#{inboundDt}
+            ,#{inboundNo} + #{i}
+            ,#{item.centerCd}
+            ,#{item.customerCd}
+            ,#{item.supplierCd}
+            ,#{item.inboundType}
+            ,#{item.inboundExpDt}
+            ,#{item.remark}
+            ,#{item.inboundReqDt}
+            ,#{item.inboundReqNo}
+            ,#{item.createdId}
+            ,now()
+            )
+
+        </foreach>
+        ;
+
+        <foreach item="item" collection="list"  index = "i" separator=";">
+        insert into t_inbound_item
+        (
+         biz_cd,
+         center_cd,
+         inbound_dt,
+         inbound_no,
+         inbound_seq,
+         item_cd,
+         qty,
+         make_lot_no
+        )
+
+        select
+        a.biz_cd
+        ,a.center_cd
+        ,a.inbound_dt
+        ,a.inbound_no
+        ,b.inbound_req_seq
+        ,b.item_cd
+        ,b.qty
+        ,b.make_lot_no
+        from t_inbound a
+        left join t_inbound_req_item b on a.biz_cd = b.biz_cd
+                                            and a.inbound_req_dt = b.inbound_req_dt
+                                            and a.inbound_req_no = b.inbound_req_no
+        where a.biz_cd = #{bizCd}
+        and a.center_cd = #{centerCd}
+        and a.inbound_dt = #{inboundDt}
+        and a.inbound_no = #{inboundNo} + #{i}
+        </foreach>
+    </insert>
+
+</mapper>
+
+    

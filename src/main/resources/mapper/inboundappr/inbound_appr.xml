@@ -23,7 +23,12 @@
             left join t_supplier d on a.biz_cd = d.biz_cd and a.customer_cd = d.customer_cd and a.supplier_cd = d.supplier_cd
         where a.biz_cd = #{bizCd}
             and a.center_cd = #{centerCd}
-            and a.inbound_req_dt between #{inboundReqFromDt} and #{inboundReqToDt}
+            <if test='inboundReqFromDt != null'>
+                and a.inbound_req_dt between #{inboundReqFromDt} and #{inboundReqToDt}
+            </if>
+            <if test='inboundExpFromDt != null'>
+                and a.inbound_exp_dt between #{inboundExpFromDt} and #{inboundExpToDt}
+            </if>
             <if test='inboundReqNo != null'>
                 and a.inbound_req_no = #{inboundReqNo}
             </if>
@@ -33,9 +38,9 @@
             <if test='supplierCd != null'>
                 and a.supplier_cd = #{supplierCd}
             </if>
-         <!--   <if test="status != null">
+            <if test='status != null'>
                 and a.status = #{status}
-            </if>-->
+            </if>
     </select>
 
 

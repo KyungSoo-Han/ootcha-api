@@ -94,6 +94,14 @@
         and a.center_cd = #{centerCd}
         and a.inbound_dt = #{inboundDt}
         and a.inbound_no = #{inboundNo} + #{i}
+        ;
+
+        update t_inbound_req
+        set status = 3
+        where biz_cd = #{item.bizCd}
+        and center_cd = #{item.centerCd}
+        and inbound_req_dt = #{item.inboundReqDt}
+        and inbound_req_no = #{item.inboundReqNo}
         </foreach>
     </insert>
 

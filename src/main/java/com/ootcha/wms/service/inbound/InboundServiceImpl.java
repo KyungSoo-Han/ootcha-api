@@ -20,6 +20,11 @@ public class InboundServiceImpl implements InboundService{
     private final InboundMapper inboundMapper;
     @Override
     public void saveInbound(List<InboundDto> inboundDto) {
+
+        for (InboundDto dto : inboundDto) {
+            System.out.println("dto = " + dto);
+        }
+
         Map<String,Object> paramMap = new HashMap<>();
         paramMap.put("bizCd", inboundDto.get(0).getBizCd() );
         paramMap.put("centerCd", inboundDto.get(0).getCenterCd() );

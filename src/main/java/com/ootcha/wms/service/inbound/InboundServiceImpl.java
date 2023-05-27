@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +23,8 @@ public class InboundServiceImpl implements InboundService{
         Map<String,Object> paramMap = new HashMap<>();
         paramMap.put("bizCd", inboundDto.get(0).getBizCd() );
         paramMap.put("centerCd", inboundDto.get(0).getCenterCd() );
-        paramMap.put("inboundDt", "2023-05-27" );
+        paramMap.put("createdId", inboundDto.get(0).getCreatedId());
+        paramMap.put("inboundDt", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         paramMap.put("list", inboundDto);
 
         inboundMapper.saveInbound(paramMap);

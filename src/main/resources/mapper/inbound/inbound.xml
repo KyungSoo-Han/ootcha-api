@@ -43,7 +43,7 @@
             ,#{item.remark}
             ,#{item.inboundReqDt}
             ,#{item.inboundReqNo}
-            ,#{item.createdId}
+            ,#{createdId}
             ,now()
             )
 
@@ -60,7 +60,14 @@
          inbound_seq,
          item_cd,
          qty,
-         make_lot_no
+         exp_dt,
+         make_lot_no,
+         make_dt,
+         inbound_req_dt,
+         inbound_req_no,
+         inbound_req_seq,
+         created_id,
+         created_dt
         )
 
         select
@@ -71,7 +78,14 @@
         ,b.inbound_req_seq
         ,b.item_cd
         ,b.qty
+        ,b.exp_dt
         ,b.make_lot_no
+        ,b.make_dt
+        ,b.inbound_req_dt
+        ,b.inbound_req_no
+        ,b.inbound_req_seq
+        ,#{createdId}
+        ,now()
         from t_inbound a
         left join t_inbound_req_item b on a.biz_cd = b.biz_cd
                                             and a.inbound_req_dt = b.inbound_req_dt

@@ -2,6 +2,7 @@ package com.ootcha.wms.service.inbound;
 
 
 import com.ootcha.wms.dto.inbound.InboundDto;
+import com.ootcha.wms.dto.inbound.InboundSrchDto;
 import com.ootcha.wms.mapper.inbound.InboundMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,16 @@ public class InboundServiceImpl implements InboundService{
 
         inboundMapper.saveInbound(paramMap);
 
+    }
+
+    @Override
+    public List<InboundDto> findInboundMst(InboundSrchDto inboundSrchDto) {
+
+        return inboundMapper.findInboundMst(inboundSrchDto);
+    }
+
+    @Override
+    public List<InboundDto> findInboundDtl(InboundSrchDto inboundSrchDto) {
+        return inboundMapper.findInboundDtl(inboundSrchDto);
     }
 }

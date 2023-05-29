@@ -13,4 +13,9 @@ import java.util.Map;
 public interface InboundMapper {
 
     void saveInbound(Map<String,Object> paramMap);
+
+    List<InboundDto> findInboundDtl(InboundSrchDto inboundSrchDto);
+
+    List<InboundDto> findInboundMst(InboundSrchDto inboundSrchDto);
+
 }

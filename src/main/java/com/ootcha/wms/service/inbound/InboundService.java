@@ -9,4 +9,8 @@ import java.util.List;
 public interface InboundService {
 
     void saveInbound(List<InboundDto> inboundDto);
+
+    List<InboundDto> findInboundMst(InboundSrchDto inboundSrchDto);
+
+    List<InboundDto> findInboundDtl(InboundSrchDto inboundSrchDto);
 }

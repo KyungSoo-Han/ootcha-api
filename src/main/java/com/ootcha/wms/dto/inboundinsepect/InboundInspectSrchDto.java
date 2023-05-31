@@ -1,4 +1,4 @@
-package com.ootcha.wms.dto.inboundreq;
+package com.ootcha.wms.dto.inboundinsepect;
 
 import lombok.Data;
 
@@ -14,7 +14,8 @@ public class InboundInspectSrchDto {
     private Integer inboundSeq;
     private String customerCd;
     private String supplierCd;
-    private String inboundExpDt;
-    private int status;
+    private String inboundExpFromDt;
+    private String inboundExpToDt;
+    private String status;
 
 }

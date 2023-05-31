@@ -1,4 +1,4 @@
-package com.ootcha.wms.dto.inboundreq;
+package com.ootcha.wms.dto.inboundinsepect;
 
 import lombok.Data;
 
@@ -7,10 +7,13 @@ public class InboundInspectDto {
 
     private String bizCd;
     private String centerCd;
-    private Integer inboundReqNo;
-    private Integer inboundNo;
-    private String inboundReqDt;
+    private String inspectDt;
+    private Integer inspectNo;
+    private Integer inspectSeq;
     private String inboundDt;
+    private Integer inboundNo;
+    private Integer inboundReqNo;
+    private String inboundReqDt;
     private String customerCd;
     private String customerNm;
     private String supplierCd;
@@ -25,8 +28,9 @@ public class InboundInspectDto {
     private String expDt;
     private String makeDt;
     private String makeLotNo;
-    private Integer price;
-    private Integer qty;
+    private Integer goodQty;
+    private Integer badQty;
+    private String badReason;
     private String subRemark;
     private Integer status;
     private String createdId;

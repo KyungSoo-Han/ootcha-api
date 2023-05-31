@@ -4,6 +4,8 @@ import com.ootcha.wms.config.CustomException;
 import com.ootcha.wms.dto.common.ResponseDto;
 import com.ootcha.wms.dto.inbound.InboundDto;
 import com.ootcha.wms.dto.inbound.InboundSrchDto;
+import com.ootcha.wms.dto.inboundinsepect.InboundInspectDto;
+import com.ootcha.wms.dto.inboundinsepect.InboundInspectSrchDto;
 import com.ootcha.wms.dto.inboundreq.*;
 import com.ootcha.wms.service.inboundappr.InboundApprService;
 import com.ootcha.wms.service.inboundreq.InboundReqService;

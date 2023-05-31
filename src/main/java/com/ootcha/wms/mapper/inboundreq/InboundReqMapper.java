@@ -3,6 +3,8 @@ package com.ootcha.wms.mapper.inboundreq;
 
 import com.ootcha.wms.dto.inbound.InboundDto;
 import com.ootcha.wms.dto.inbound.InboundSrchDto;
+import com.ootcha.wms.dto.inboundinsepect.InboundInspectDto;
+import com.ootcha.wms.dto.inboundinsepect.InboundInspectSrchDto;
 import com.ootcha.wms.dto.inboundreq.*;
 import org.apache.ibatis.annotations.Mapper;
 

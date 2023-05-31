@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ootcha.wms.mapper.inboundinspect.InboundInspectMapper">
+
+
+    <select id="findInboundInspectList" parameterType="com.ootcha.wms.dto.inboundinsepect.InboundInspectSrchDto" resultType="com.ootcha.wms.dto.inboundinsepect.InboundInspectDto" >
+        select
+        a.biz_cd
+        ,a.inbound_dt
+        ,a.inbound_no
+        ,b.inbound_seq
+        ,a.inbound_req_dt
+        ,a.inbound_req_no
+        ,b.inbound_req_seq
+        ,a.center_cd
+        ,a.customer_cd
+        ,c.customer_nm
+        ,a.supplier_cd
+        ,d.supplier_nm
+        ,a.inbound_type
+        ,a.inbound_exp_dt
+        ,a.remark
+        ,b.inbound_req_seq
+        ,b.item_cd
+        ,e.item_nm
+        ,b.exp_dt
+        ,b.make_dt
+        ,b.make_lot_no
+        ,b.qty
+        ,b.sub_remark
+        from t_inbound a
+        left join t_inbound_item b on a.biz_cd = b.biz_cd
+        and a.inbound_dt = b.inbound_dt
+        and a.inbound_no = b.inbound_no
+        left join t_customer c on a.biz_cd = c.biz_cd and a.customer_cd = c.customer_cd
+        left join t_supplier d on a.biz_cd = d.biz_cd and a.customer_cd = d.customer_cd and a.supplier_cd = d.supplier_cd
+        left join t_item e on a.biz_cd = e.biz_cd and a.customer_cd = e.customer_cd and b.item_cd = e.item_cd
+        where a.biz_cd = #{bizCd}
+        and a.center_cd = #{centerCd}
+        and b.inspect_yn = 'N'      -- 검수되지 않은 입고품목
+        and e.is_inspect = 'Y'      -- 기준정보의 검수품목인 것만
+
+        <if test='inboundExpFromDt != null'>
+            and a.inbound_exp_dt between #{inboundExpFromDt} and #{inboundExpToDt}
+        </if>
+
+    </select>
+
+</mapper>
+
+    

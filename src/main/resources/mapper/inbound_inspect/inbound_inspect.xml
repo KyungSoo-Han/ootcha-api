@@ -26,7 +26,9 @@
         ,b.exp_dt
         ,b.make_dt
         ,b.make_lot_no
-        ,b.qty
+        ,b.qty as inboundQty
+        ,b.qty as goodQty
+        ,0 as badQty
         ,b.sub_remark
         from t_inbound a
         left join t_inbound_item b on a.biz_cd = b.biz_cd

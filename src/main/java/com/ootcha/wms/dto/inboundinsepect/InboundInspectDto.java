@@ -28,6 +28,7 @@ public class InboundInspectDto {
     private String expDt;
     private String makeDt;
     private String makeLotNo;
+    private Integer inboundQty;
     private Integer goodQty;
     private Integer badQty;
     private String badReason;

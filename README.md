@@ -11,7 +11,6 @@
 - Spring Boot
 - Spring Security 
 - MyBatis
-- RabbitMQ: 품목 엑셀업로드
 - MariaDB
 - Swagger
 - Docker 

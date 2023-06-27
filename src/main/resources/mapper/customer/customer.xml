@@ -65,25 +65,25 @@
                     ,#{homepage}
                     ,#{status}
                     ,#{createdId}
-                    ,now()
-                )
-        ON DUPLICATE KEY UPDATE
+               ,now()
+                        ON DUPLICATE KEY UPDATE
                  customer_nm = #{customerNm},
-                 customer_enm = #{customerEnm},
-                 owner_nm = #{ownerNm},
-                 biz_no = #{bizNo},
-                 biz_item = #{bizItem},
-                 biz_type = #{bizType},
-                 email = #{email},
-                 tel_no = #{telNo},
-                 fax_no = #{faxNo},
-                 zip_no = #{zipNo},
-                 zip_addr1 = #{zipAddr1},
-                 zip_addr2 = #{zipAddr2},
-                 homepage = #{homepage},
-                 status = #{status},
-                 modified_id = #{createdId},
-                 modified_dt = now()
+                   customer_enm = #{customerEnm},
+                   owner_nm = #{ownerNm},
+                   biz_no = #{bizNo},
+                   biz_item = #{bizItem},
+                   biz_type = #{bizType},
+                   email = #{email},
+                   tel_no = #{telNo},
+                   fax_no = #{faxNo},
+                   zip_no = #{zipNo},
+                   zip_addr1 = #{zipAddr1},
+                   zip_addr2 = #{zipAddr2},
+                   homepage = #{homepage},
+                   status = #{status},
+                   modified_id = #{createdId},
+                   modified_dt = now()
+               )
     </insert>
 
 

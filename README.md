@@ -3,7 +3,7 @@
 
 ## Fornt-End
 - GitHub Repository: ootcha-web
-- http://wms.ootcha.com/
+- ~~http://wms.ootcha.com/~~
 
 ## 개발환경
 - Java

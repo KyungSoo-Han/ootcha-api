@@ -4,7 +4,7 @@ spring:
     activate:
       on-profile: server
   datasource:
-    url:  jdbc:log4jdbc:mariadb://db.ootcha.com:3306/ootcha?characterEncoding=UTF-8&allowMultiQueries=true
+    url:  jdbc:log4jdbc:mysql://localhost:3306/ootcha?characterEncoding=UTF-8&allowMultiQueries=true
     username: hanks
     password: 590405
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
@@ -51,7 +51,7 @@ spring:
   datasource:
     #url: jdbc:sqlserver://110.93.134.227:2014;database=ASEL_WMS_TEST;encrypt=false
     #url: jdbc:log4jdbc://210.103.143.194:19;database=ASEL_WMS;encrypt=false
-    url:  jdbc:log4jdbc:mariadb://db.ootcha.com:3306/ootcha?characterEncoding=UTF-8&allowMultiQueries=true
+    url:  jdbc:log4jdbc:mysql://localhost:3306/ootcha?characterEncoding=UTF-8&allowMultiQueries=true
     #url:  jdbc:mysql://localhost:3306/wms?serverTimezone=Asia/Seoul
     username: hanks
     password: 590405
@@ -65,7 +65,7 @@ spring:
 
 management:
   server:
-    port: 9090
+    port: 8888
   endpoints:
     web:
       exposure:

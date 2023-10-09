@@ -84,6 +84,7 @@ public class SecurityConfig {
 
                 .anyRequest().authenticated()
 
+                
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
 
